@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    password: Fs4210gFGS1*(s1
+    url: jdbc:mysql://rm-bp11d50m31tbdlv0h2o.mysql.rds.aliyuncs.com:3306/ygg_sale_platform
+    driver-class-name: org.gjt.mm.mysql.Driver
+    username: test_write

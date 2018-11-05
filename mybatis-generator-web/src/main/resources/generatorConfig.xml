@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!-- 该配置文件放在dal module resources目录下-->
+<generatorConfiguration>
+    <classPathEntry
+            location="/Users/sven/.m2/repository/mysql/mysql-connector-java/5.1.40/mysql-connector-java-5.1.40.jar"/>
+
+    <!-- 自定义代码生成器 -->
+    <context id="demo" targetRuntime="top.sven.generator.customize.CustomizeIntrospectedTableMyBatis3Impl">
+        <property name="suppressAllComments" value="true"/>
+        <property name="useActualColumnNames" value="false"/>
+        <property name="javaFileEncoding" value="UTF-8"/>
+
+        <!-- 配置插件 start-->
+        <plugin type="top.sven.generator.plugins.ViewPlugin">
+            <!-- 全路径生成在对应目录下，非全路径当前module下-->
+            <property name="targetProject" value="src/main/java"/>
+            <property name="targetPackage" value="top.sven.generate.view"/>
+        </plugin>
+        <plugin type="top.sven.generator.plugins.MapperPlugin"/>
+        <plugin type="top.sven.generator.plugins.ServicePlugin">
+            <!-- 全路径生成在对应目录下，非全路径当前module下-->
+            <property name="targetProject" value="src/main/java"/>
+            <property name="targetPackage" value="top.sven.generate.service"/>
+        </plugin>
+        <!-- 配置插件 end-->
+
+        <!-- 注释生成器配置-->
+        <commentGenerator type="top.sven.generator.customize.CustomizeCommentGenerator"/>
+
+        <!-- 配置数据库连接 -->
+        <jdbcConnection driverClass="org.gjt.mm.mysql.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/flag"
+                        userId="root" password="1234"/>
+        <!--数据库类型转java类型解析器-->
+        <javaTypeResolver type="top.sven.generator.customize.CustomizeJavaTypeResolver">
+            <property name="forceBigDecimals" value="false"/>
+
+        </javaTypeResolver>
+
+        <!-- 生成model文件位置 -->
+        <javaModelGenerator targetPackage="top.sven.generate.model"
+                            targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!-- xml文件位置-->
+        <sqlMapGenerator targetPackage="top.sven.generate.mapper"
+                         targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!--mapper文件位置 -->
+        <javaClientGenerator type="MAPPER"
+                             targetPackage="top.sven.generate.mapper" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <table tableName="airplane_airport"/>
+
+    </context>
+</generatorConfiguration>
