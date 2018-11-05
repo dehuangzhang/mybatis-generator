@@ -10,13 +10,11 @@ import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.JavaVisibility;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
 import top.sven.generator.adapter.DefaultPluginAdapter;
-import top.sven.land.base.BaseListView;
 import top.sven.land.base.BaseView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 import static top.sven.generator.constants.GeneratorConstants.*;
@@ -43,9 +41,6 @@ public class ViewPlugin extends DefaultPluginAdapter {
         String viewPackage = this.properties.getProperty(TARGET_PACKAGE);
         //生成view对象
         this.generateView(viewPath, viewPackage, introspectedTable);
-        //生成listView对象
-        this.generateListView(viewPath, viewPackage, introspectedTable);
-
         return javaFileList;
     }
 
@@ -68,31 +63,6 @@ public class ViewPlugin extends DefaultPluginAdapter {
         context.getCommentGenerator().addModelClassComment(clazz, introspectedTable);
         this.generateJavaFile(clazz, viewPath);
     }
-
-    /**
-     * 生成listView对象
-     *
-     * @param viewPath
-     * @param viewPackage
-     * @param introspectedTable
-     */
-    private void generateListView(String viewPath, String viewPackage, IntrospectedTable introspectedTable) {
-        String isGenerateListView = properties.getProperty("isGenerateListView");
-        if (Objects.equals(isGenerateListView, Boolean.FALSE)) {
-            return;
-        }
-        listViewName = baseTypeName + LIST_VIEW_SUFFIX;
-        FullyQualifiedJavaType listViewType = new FullyQualifiedJavaType(viewPackage + "." + listViewName);
-        TopLevelClass listClass = new TopLevelClass(listViewType);
-        addDefaultAnnotation(listClass);
-        listClass.setSuperClass(new FullyQualifiedJavaType(getShortName(BaseListView.class.getName()) + "<" + viewName + ">"));
-        listClass.addImportedType(BaseListView.class.getName());
-        listClass.setVisibility(JavaVisibility.PUBLIC);
-        addSerialField(listClass);
-        context.getCommentGenerator().addModelClassComment(listClass, introspectedTable);
-        this.generateJavaFile(listClass, viewPath);
-    }
-
 
     /**
      * 添加默认的注解
